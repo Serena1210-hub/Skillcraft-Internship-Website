@@ -1,23 +1,14 @@
-import logo from './logo.svg';
-import './App.css';
+// src/App.js
+import { app, db } from "./firebase/firebaseConfig";
 
 function App() {
+  console.log("✅ Firebase app object:", app);       // Logs the app object
+  console.log("✅ Firestore database object:", db);  // Logs Firestore object
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+    <div>
+      <h1>Intern Portal</h1>
+      <p>Check the console to see if Firebase & Firestore are connected.</p>
     </div>
   );
 }
