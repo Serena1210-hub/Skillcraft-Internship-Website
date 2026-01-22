@@ -1,4 +1,6 @@
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+// Components
+import Navbar from "./components/Navbar";
 
 // Pages
 import Home from "./pages/Home";
@@ -12,6 +14,10 @@ import Dashboard from "./pages/Dashboard";
 function App() {
   return (
     <Router>
+      {/* Navbar always visible */}
+      <Navbar />
+
+      {/* Page routes */}
       <Routes>
         <Route path="/" element={<Home />} />
 
