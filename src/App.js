@@ -20,7 +20,7 @@ function App() {
 
       {/* Page routes */}
       <Routes>
-        <Route path="/" element={<Home />} />
+        <Route path="/home" element={<Home />} />
 
         {/* Auth */}
         <Route path="/login" element={<Login />} />
