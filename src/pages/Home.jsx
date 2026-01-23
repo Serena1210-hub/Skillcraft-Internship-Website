@@ -1,10 +1,17 @@
+import {
+  CpuChipIcon,
+  ShieldCheckIcon,
+  CloudIcon,
+  CodeBracketIcon,
+} from "@heroicons/react/24/outline";
+
 export default function Home() {
   return (
     <div className="relative min-h-screen text-white overflow-x-hidden">
 
       {/* ================= BACKGROUND ================= */}
       <div className="fixed inset-0 -z-10">
-        {/* Background Image (controlled, not overwhelming) */}
+        {/* Background Image */}
         <img
           src="/content1.jpg"
           alt="Background"
@@ -18,17 +25,25 @@ export default function Home() {
         <div className="absolute inset-0 bg-[linear-gradient(rgba(255,255,255,0.025)_1px,transparent_1px),linear-gradient(90deg,rgba(255,255,255,0.025)_1px,transparent_1px)] bg-[size:80px_80px]" />
 
         {/* Glow accents */}
-        <div className="absolute top-[-250px] left-[-250px] w-[600px] h-[600px] bg-[#0e0abf]/20 blur-[160px] rounded-full" />
-        <div className="absolute bottom-[-250px] right-[-250px] w-[600px] h-[600px] bg-[#ffc916]/20 blur-[160px] rounded-full" />
+        <div className="absolute top-[-250px] left-[-250px] w-[600px] h-[600px] bg-[#0e0abf]/20 blur-[160px] rounded-full animate-pulse" />
+        <div className="absolute bottom-[-250px] right-[-250px] w-[600px] h-[600px] bg-[#ffc916]/20 blur-[160px] rounded-full animate-pulse" />
+      </div>
+
+      {/* ================= FLOATING TECH STICKERS ================= */}
+      <div className="pointer-events-none fixed inset-0 -z-5">
+        <CpuChipIcon className="absolute top-24 left-20 w-12 text-[#ffc916]/30 animate-bounce" />
+        <ShieldCheckIcon className="absolute top-1/3 right-24 w-14 text-[#0e0abf]/30 animate-spin-slow" />
+        <CloudIcon className="absolute bottom-32 left-1/4 w-16 text-white/20 animate-float" />
+        <CodeBracketIcon className="absolute bottom-24 right-1/3 w-12 text-[#ffc916]/30 animate-floatSlow" />
       </div>
 
       {/* ================= HERO ================= */}
       <section className="max-w-7xl mx-auto px-6 pt-36 pb-28 text-center">
-        <h1 className="text-5xl md:text-6xl font-extrabold text-[#ffc916] tracking-tight">
+        <h1 className="text-5xl md:text-6xl font-extrabold text-[#ffc916] tracking-tight animate-fade-in">
           SkillCraft Internship Portal
         </h1>
 
-        <p className="mt-6 max-w-3xl mx-auto text-white/80 text-lg">
+        <p className="mt-6 max-w-3xl mx-auto text-white/80 text-lg animate-fade-in delay-150">
           A next-generation internship experience for future engineers,
           innovators, and cybersecurity professionals — fully sponsored by
           Leshey Technologies.
@@ -159,3 +174,4 @@ export default function Home() {
     </div>
   );
 }
+
