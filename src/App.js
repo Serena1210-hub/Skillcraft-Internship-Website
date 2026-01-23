@@ -1,6 +1,7 @@
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 // Components
 import Navbar from "./components/Navbar";
+import CountUp from "./components/CountUp";
 
 // Pages
 import Home from "./pages/Home";
@@ -24,6 +25,8 @@ function App() {
         {/* Auth */}
         <Route path="/login" element={<Login />} />
         <Route path="/register" element={<Register />} />
+
+        <Route path="/countup" element={<CountUp />} />
 
         {/* Protected pages */}
         <Route path="/dashboard" element={<Dashboard />} />

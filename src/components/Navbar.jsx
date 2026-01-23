@@ -29,8 +29,8 @@ export default function Navbar() {
 
         {/* Center links */}
         <div className="hidden md:flex space-x-10">
-          <NavLink to="/dashboard" className={navLinkClass}>
-            Dashboard
+          <NavLink to="/home" className={navLinkClass}>
+            Home
           </NavLink>
           <NavLink to="/application" className={navLinkClass}>
             Application
@@ -77,8 +77,8 @@ export default function Navbar() {
       {/* Mobile dropdown */}
       {isOpen && (
         <div className="md:hidden bg-black/95 px-6 py-6 space-y-4">
-          <NavLink to="/dashboard" className={navLinkClass}>
-            Dashboard
+          <NavLink to="/home" className={navLinkClass}>
+            Home
           </NavLink>
           <NavLink to="/application" className={navLinkClass}>
             Application
