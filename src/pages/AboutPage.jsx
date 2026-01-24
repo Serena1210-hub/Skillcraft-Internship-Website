@@ -10,9 +10,9 @@ const AboutPage = () => {
     { name: "TechCorp Global", logo: "/jfn.png" },
     { name: "SecureNet Solutions", logo: "/CODAM.png" },
     { name: "CloudScale Systems", logo: "/Fenix Touch logo.png" },
-    { name: "DataDriven Inc.", logo: "/logos/datadriven.png" },
-    { name: "InnovateTech Labs", logo: "/logos/innovate.png" },
-    { name: "CyberGuard Pro", logo: "/logos/cyberguard.png" },
+    { name: "DataDriven Inc.", logo: "/HACKTHEBOX.png" },
+    { name: "InnovateTech Labs", logo: "/GOOGLE DEVELOPERS.png" },
+    { name: "CyberGuard Pro", logo: "/kamcyber.png" },
     { name: "DevOps Masters", logo: "/logos/devops.png" },
     { name: "AI Frontiers", logo: "/logos/aifrontiers.png" },
   ];
@@ -56,7 +56,7 @@ const AboutPage = () => {
           Our Mission
         </span>
         <h2 className="text-3xl md:text-4xl font-extrabold text-[#0e0abf] mt-4 mb-6">
-          Turning Knowledge into Real-World Skill
+          To Foster Technology-driven development and empowerment within our community.
         </h2>
         <p className="text-gray-700 text-lg mb-5">
           SkillCraft exists to eliminate the gap between what students 
@@ -79,12 +79,12 @@ const AboutPage = () => {
 
       <div className="bg-white/80 backdrop-blur-xl border border-[#e1b787]/40 rounded-3xl p-12 shadow-xl h-96 flex flex-col justify-center text-center animate-fade-in">
         <div className="text-6xl mb-6 text-[#ffc916] animate-pulse">🎯</div>
-        <h3 className="text-2xl font-bold text-[#0e0abf] mb-4">Our Goal</h3>
+        <h3 className="text-2xl font-bold text-[#0e0abf] mb-4">Our Vision</h3>
         <p className="text-gray-700 text-lg font-medium leading-relaxed">
-          To develop a new generation of 
-          <span className="text-[#0e0abf] font-semibold"> industry-ready professionals </span>
-          who can confidently contribute from day one — not just graduates, but 
-          <span className="text-[#ffc916] font-semibold"> problem-solvers, builders, and innovators.</span>
+          A world where everyone, regardless of their background,  
+          <span className="text-[#0e0abf] font-semibold"> has the opportunity to learn about and use technology to create a better future for themselves </span>
+           and their communities
+          <span className="text-[#ffc916] font-semibold"> To Have a Cyber Space where Everyone feels safe and inspiring technological growth.</span>
         </p>
       </div>
     </div>

@@ -2,9 +2,11 @@ import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
 
+
 const SignInPage = () => {
   const navigate = useNavigate();
   const { signIn } = useAuth();
+
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [error, setError] = useState('');
@@ -27,20 +29,26 @@ const SignInPage = () => {
   };
 
   return (
-    <div className="min-h-screen bg-gray-50 flex">
-      {/* Left Side - Form */}
-      <div className="flex-1 flex items-center justify-center px-4 sm:px-6 lg:px-8">
+    <div className="min-h-screen flex bg-white">
+
+      {/* LEFT SIDE - FORM */}
+      <div className="flex-1 flex items-center justify-center px-6">
         <div className="max-w-md w-full">
-          {/* Logo */}
-          <div className="flex items-center space-x-2 mb-8">
-            <div className="w-10 h-10 bg-black rounded-xl flex items-center justify-center">
-              <span className="text-white font-bold text-sm">SC</span>
-            </div>
-            <span className="text-xl font-bold text-black">SkillCraft</span>
+
+          {/* LOGO */}
+          <div className="flex items-center gap-3 mb-8">
+            <img src="/logo.svg" alt="SkillCraft Logo" className="w-24 h-24" />
+            <span className="text-xl font-bold text-[#ffc916]">
+              SkillCraft
+            </span>
           </div>
 
-          <h2 className="text-3xl font-bold mb-2">Welcome Back</h2>
-          <p className="text-gray-600 mb-8">Sign in to access your student portal</p>
+          <h2 className="text-3xl font-bold text-black mb-2">
+            Welcome Back
+          </h2>
+          <p className="text-gray-600 mb-8">
+            Sign in to access your student portal
+          </p>
 
           {error && (
             <div className="mb-4 p-4 bg-red-50 border border-red-200 text-red-600 rounded-lg text-sm">
@@ -49,6 +57,7 @@ const SignInPage = () => {
           )}
 
           <form onSubmit={handleSubmit} className="space-y-6">
+
             <div>
               <label className="block text-sm font-medium text-gray-700 mb-2">
                 Email
@@ -58,8 +67,10 @@ const SignInPage = () => {
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
                 placeholder="you@university.edu"
-                className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent outline-none transition-all"
                 required
+                className="w-full px-4 py-3 border border-gray-300 rounded-lg
+                           focus:ring-2 focus:ring-[#0e0abf]
+                           focus:border-transparent outline-none transition"
               />
             </div>
 
@@ -72,34 +83,39 @@ const SignInPage = () => {
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
                 placeholder="••••••••"
-                className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent outline-none transition-all"
                 required
+                className="w-full px-4 py-3 border border-gray-300 rounded-lg
+                           focus:ring-2 focus:ring-[#0e0abf]
+                           focus:border-transparent outline-none transition"
               />
             </div>
 
             <button
               type="submit"
               disabled={loading}
-              className="w-full py-3 bg-black text-white rounded-lg hover:bg-gray-800 font-medium disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
+              className="w-full py-3 rounded-lg font-semibold
+                         bg-[#ffc916] text-black
+                         hover:bg-[#e1b787]
+                         disabled:opacity-50 disabled:cursor-not-allowed transition"
             >
               {loading ? 'Signing in...' : 'Sign In'}
             </button>
           </form>
 
           <p className="mt-6 text-center text-gray-600">
-            Don't have an account?{' '}
-            <button 
-              onClick={() => navigate('/signup')} 
-              className="text-blue-600 font-medium hover:underline"
+            Don&apos;t have an account?{' '}
+            <button
+              onClick={() => navigate('/signup')}
+              className="text-[#0e0abf] font-medium hover:underline"
             >
               Create one
             </button>
           </p>
 
           <div className="mt-6 text-center">
-            <button 
+            <button
               onClick={() => navigate('/')}
-              className="text-gray-600 hover:text-gray-900 text-sm"
+              className="text-sm text-gray-500 hover:text-black"
             >
               ← Back to Home
             </button>
@@ -107,35 +123,34 @@ const SignInPage = () => {
         </div>
       </div>
 
-      {/* Right Side - Info */}
-      <div className="hidden lg:block flex-1 bg-gradient-to-br from-indigo-900 via-purple-900 to-blue-900 p-12">
+      {/* RIGHT SIDE - INFO */}
+      <div className="hidden lg:flex flex-1 bg-gradient-to-br from-black via-[#0e0abf] to-black p-12">
         <div className="h-full flex flex-col justify-center text-white">
-          <h3 className="text-4xl font-bold mb-6">Student Portal Access</h3>
-          <p className="text-xl text-gray-200 mb-8">
-            Access your personalized dashboard to track your application, complete assessments, and explore resources.
+          <h3 className="text-4xl font-bold mb-6 text-[#ffc916]">
+            Student Portal Access
+          </h3>
+
+          <p className="text-lg text-white/80 mb-8">
+            Access your dashboard to track applications, complete assessments, and explore resources.
           </p>
+
           <div className="space-y-4">
-            <div className="flex items-center">
-              <div className="w-8 h-8 bg-yellow-400 rounded-lg flex items-center justify-center mr-3">
-                <span>✓</span>
+            {[
+              'Track application status in real-time',
+              'Access exclusive learning resources',
+              'Connect with mentors and peers',
+            ].map((text, i) => (
+              <div key={i} className="flex items-center">
+                <div className="w-8 h-8 bg-[#ffc916] text-black rounded-lg flex items-center justify-center mr-3 font-bold">
+                  ✓
+                </div>
+                <span>{text}</span>
               </div>
-              <span>Track application status in real-time</span>
-            </div>
-            <div className="flex items-center">
-              <div className="w-8 h-8 bg-yellow-400 rounded-lg flex items-center justify-center mr-3">
-                <span>✓</span>
-              </div>
-              <span>Access exclusive learning resources</span>
-            </div>
-            <div className="flex items-center">
-              <div className="w-8 h-8 bg-yellow-400 rounded-lg flex items-center justify-center mr-3">
-                <span>✓</span>
-              </div>
-              <span>Connect with mentors and peers</span>
-            </div>
+            ))}
           </div>
         </div>
       </div>
+
     </div>
   );
 };
