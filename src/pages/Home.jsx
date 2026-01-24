@@ -52,14 +52,15 @@ export default function Home() {
         <div className="mt-10 flex justify-center gap-6 flex-wrap">
           <a
             href="#tracks"
-            className="bg-[#ffc916] text-black font-bold px-8 py-4 rounded-full shadow-xl hover:bg-white hover:scale-105 transition"
+            className="border border-white/30 px-8 py-4 rounded-full hover:border-[#0e0abf] hover:text-[#0e0abf] hover:scale-105 transition"
           >
             Explore Tracks
           </a>
           <a
-            href="#apply"
-            className="border border-white/30 px-8 py-4 rounded-full hover:border-[#0e0abf] hover:text-[#0e0abf] hover:scale-105 transition"
-          >
+            href="/Application"
+            className="bg-[#ffc916] text-black font-bold px-8 py-4 rounded-full shadow-xl hover:bg-white hover:scale-105 transition"
+          
+            >
             Apply Now
           </a>
         </div>

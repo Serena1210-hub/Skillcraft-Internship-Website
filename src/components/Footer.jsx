@@ -1,83 +1,105 @@
-import React from 'react';
-import { useNavigate } from 'react-router-dom';
+import React from "react";
+import { useNavigate } from "react-router-dom";
 
 const Footer = () => {
   const navigate = useNavigate();
 
   return (
-    <footer className="bg-black text-white py-12">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="grid md:grid-cols-4 gap-8 mb-8">
+    <footer className="bg-[#000000] text-white relative overflow-hidden">
+      {/* subtle tech grid */}
+      <div className="absolute inset-0 bg-[linear-gradient(rgba(255,255,255,0.04)_1px,transparent_1px),linear-gradient(90deg,rgba(255,255,255,0.04)_1px,transparent_1px)] bg-[size:100px_100px] opacity-40" />
+
+      <div className="relative max-w-7xl mx-auto px-6 py-20">
+        {/* Top */}
+        <div className="grid md:grid-cols-4 gap-8 mb-10">
+          
           {/* Brand */}
           <div>
-            <div className="flex items-center space-x-2 mb-4">
-              <div className="w-10 h-10 bg-blue-600 rounded-xl flex items-center justify-center">
-                <span className="text-white font-bold text-sm">SC</span>
-              </div>
-              <span className="text-xl font-bold">SkillCraft</span>
+            <div className="flex items-center gap-3 mb-5">
+              {/* LOGO */}
+              <img
+                src="/logo1.png"  // place logo in public folder
+                alt="SkillCraft Logo"
+                className="w-26 h-12 object-contain"
+              />
+              <br></br>
+              <span className="text-2xl font-extrabold tracking-wide">
+                Skill<span className="text-[#ffc916]">Craft</span>
+              </span>
             </div>
-            <p className="text-gray-400 text-sm">
-              Empowering the next generation of tech professionals through immersive internship experiences.
+            <p className="text-gray-400 text-sm leading-relaxed">
+              SkillCraft is a selective, industry-driven internship program
+              designed to produce job-ready software engineers and
+              cybersecurity professionals.
             </p>
           </div>
 
-          {/* Quick Links */}
+          {/* Navigation */}
           <div>
-            <h4 className="font-bold mb-4">Quick Links</h4>
-            <div className="space-y-2">
-              <button 
-                onClick={() => navigate('/')} 
-                className="block text-gray-400 hover:text-white text-sm transition-colors"
-              >
-                Home
-              </button>
-              <button 
-                onClick={() => navigate('/about')} 
-                className="block text-gray-400 hover:text-white text-sm transition-colors"
-              >
-                About Us
-              </button>
-              <button 
-                onClick={() => navigate('/eligibility')} 
-                className="block text-gray-400 hover:text-white text-sm transition-colors"
-              >
-                Eligibility
-              </button>
+            <h4 className="font-bold mb-5 text-[#ffc916] uppercase tracking-wider text-sm">
+              Navigate
+            </h4>
+            <div className="space-y-3">
+              {[
+                { label: "Home", path: "/" },
+                { label: "About", path: "/about" },
+                { label: "Eligibility", path: "/eligibility" },
+                { label: "Apply", path: "/signup" },
+              ].map((link, i) => (
+                <button
+                  key={i}
+                  onClick={() => navigate(link.path)}
+                  className="block text-gray-400 hover:text-white text-sm transition"
+                >
+                  {link.label}
+                </button>
+              ))}
             </div>
           </div>
 
           {/* Programs */}
           <div>
-            <h4 className="font-bold mb-4">Programs</h4>
-            <div className="space-y-2">
-              <p className="text-gray-400 text-sm">Software Engineering</p>
-              <p className="text-gray-400 text-sm">Cybersecurity</p>
-              <p className="text-gray-400 text-sm">Professional Development</p>
-              <p className="text-gray-400 text-sm">Industry Placement</p>
-            </div>
+            <h4 className="font-bold mb-5 text-[#ffc916] uppercase tracking-wider text-sm">
+              Programs
+            </h4>
+            <ul className="space-y-3 text-gray-400 text-sm">
+              <li>Software Engineering</li>
+              <li>Cybersecurity</li>
+              <li>Industry Mentorship</li>
+              <li>Career Placement</li>
+            </ul>
           </div>
 
           {/* Contact */}
           <div>
-            <h4 className="font-bold mb-4">Contact</h4>
-            <div className="space-y-2 text-gray-400 text-sm">
-              <p>contact@skillcraft.edu</p>
-              <p>+1 (555) 123-4567</p>
-              <p>123 Innovation Drive<br />Tech City, TC 12345</p>
+            <h4 className="font-bold mb-5 text-[#ffc916] uppercase tracking-wider text-sm">
+              Contact
+            </h4>
+            <div className="space-y-3 text-gray-400 text-sm">
+              <p>Email: <span className="text-white">obengladys@gmail.com</span></p>
+              <p>Phone: <span className="text-white">+237 693 759 722</span></p>
+              <p>
+                Location:
+                <br />
+                <span className="text-white">
+                  Bonaberi, Douala<br />Cameroon
+                </span>
+              </p>
             </div>
           </div>
         </div>
 
-        {/* Bottom Bar */}
-        <div className="border-t border-gray-800 pt-8 flex flex-col md:flex-row justify-between items-center">
-          <p className="text-gray-400 text-sm mb-4 md:mb-0">
-            © 2026 SkillCraft. All rights reserved.
+        {/* Bottom */}
+        <div className="border-t border-white/10 pt-8 flex flex-col md:flex-row items-center justify-between gap-6">
+          <p className="text-gray-500 text-sm">
+            © {new Date().getFullYear()} SkillCraft. All rights reserved.
           </p>
-          <div className="flex space-x-6">
-            <button className="text-gray-400 hover:text-white text-sm transition-colors">
+
+          <div className="flex gap-6">
+            <button className="text-gray-400 hover:text-[#ffc916] text-sm transition">
               Privacy Policy
             </button>
-            <button className="text-gray-400 hover:text-white text-sm transition-colors">
+            <button className="text-gray-400 hover:text-[#ffc916] text-sm transition">
               Terms of Service
             </button>
           </div>

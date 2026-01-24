@@ -1,112 +1,142 @@
-import React, { useState } from 'react';
-import { useNavigate, useLocation } from 'react-router-dom';
-import { Menu, X } from 'lucide-react';
-import logo from '../logo.png'; // Importing your logo
+import React, { useState } from "react";
+import { useNavigate, useLocation } from "react-router-dom";
+import { Menu, X } from "lucide-react";
+import logo from "../logo.png";
 
 const PublicHeader = () => {
   const navigate = useNavigate();
-  const location = useLocation(); // Added to detect active page
+  const location = useLocation();
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
 
+  const navItemClass = (path) =>
+    `relative text-[13px] tracking-wide transition-all duration-300
+     ${
+       location.pathname === path
+         ? "text-[#ffc916]"
+         : "text-white/70 hover:text-white"
+     }
+     after:absolute after:left-0 after:-bottom-1
+     after:h-[1px] after:w-full after:bg-[#ffc916]
+     after:origin-left after:scale-x-0
+     after:transition-transform after:duration-300
+     hover:after:scale-x-100
+     ${location.pathname === path ? "after:scale-x-100" : ""}`;
+
   return (
-    <header className="bg-white/20 backdrop-blur-md border-b border-gray-200 sticky top-0 z-50">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="flex justify-between items-center h-20"> {/* Height h-20 for bigger logo */}
-          
-          {/* Logo Section */}
-          <div 
-            className="flex items-center space-x-3 cursor-pointer" 
-            onClick={() => navigate('/')}
+    <header className="fixed top-0 w-full z-50">
+      {/* Glass background */}
+      <div className="absolute inset-0 bg-black/40 backdrop-blur-xl" />
+
+      <div className="relative max-w-7xl mx-auto px-6 h-14 flex items-center justify-between">
+        {/* Logo */}
+        <div
+          onClick={() => navigate("/")}
+          className="flex items-center gap-2 cursor-pointer"
+        >
+          <img src={logo} alt="SkillCraft Logo" className="h-24 w-24 object-contain" />
+          <span className="text-[#ffc916] text-xs font-semibold tracking-[0.25em]">
+            SKILLCRAFT
+          </span>
+        </div>
+
+        {/* Center navigation */}
+        <nav className="hidden md:flex absolute left-1/2 -translate-x-1/2 gap-10">
+          <button onClick={() => navigate("/")} className={navItemClass("/")}>
+            Dashboard
+          </button>
+          <button
+            onClick={() => navigate("/about")}
+            className={navItemClass("/about")}
           >
-            <img src={logo} alt="Logo" className="w-20 h-20 object-contain" />
-            <span className="text-2xl font-bold text-black tracking-tight">SkillCraft</span>
-          </div>
-
-          {/* Desktop Navigation */}
-          <nav className="hidden md:flex items-center space-x-1 h-full">
-            {[
-              { name: 'Home', path: '/' },
-              { name: 'About', path: '/about' },
-              { name: 'Eligibility', path: '/eligibility' },
-            ].map((item) => (
-              <button 
-                key={item.path}
-                onClick={() => navigate(item.path)} 
-                className={`px-4 h-full relative font-medium transition-colors ${
-                  location.pathname === item.path ? 'text-[#D4AF37]' : 'text-gray-700 hover:text-black hover:bg-black/5'
-                }`}
-              >
-                {item.name}
-                {location.pathname === item.path && (
-                  <div className="absolute bottom-0 left-0 right-0 h-1 bg-[#D4AF37]" />
-                )}
-              </button>
-            ))}
-          </nav>
-
-          {/* Desktop Auth Buttons */}
-          <div className="hidden md:flex items-center space-x-3">
-            <button 
-              onClick={() => navigate('/signin')} 
-              className="px-4 py-2 text-gray-700 hover:text-black font-medium transition-colors"
-            >
-              Sign In
-            </button>
-            <button 
-              onClick={() => navigate('/signup')} 
-              className="px-6 py-2 bg-black text-white rounded-lg hover:bg-gray-800 font-medium transition-colors"
-            >
-              Apply Now →
-            </button>
-          </div>
-
-          {/* Mobile Menu Button */}
-          <button 
-            onClick={() => setMobileMenuOpen(!mobileMenuOpen)} 
-            className="md:hidden p-2 hover:bg-gray-100 rounded-lg transition-colors"
+            About
+          </button>
+          <button
+            onClick={() => navigate("/eligibility")}
+            className={navItemClass("/eligibility")}
           >
-            {mobileMenuOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
+            Eligibility
+          </button>
+        </nav>
+
+        {/* Right side */}
+        <div className="flex items-center gap-4">
+          <button
+            onClick={() => navigate("/signin")}
+            className="hidden md:block text-white/70 hover:text-[#ffc916] transition text-sm"
+          >
+            Sign In
+          </button>
+
+          <button
+            onClick={() => navigate("/signup")}
+            className="hidden md:block px-4 py-1.5 text-sm rounded-full
+                       bg-[#ffc916] text-black font-medium
+                       hover:bg-white transition"
+          >
+            Apply
+          </button>
+
+          {/* Mobile toggle */}
+          <button
+            onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
+            className="md:hidden text-white/80 hover:text-[#ffc916]"
+          >
+            {mobileMenuOpen ? <X size={22} /> : <Menu size={22} />}
           </button>
         </div>
       </div>
 
       {/* Mobile Menu */}
-      {mobileMenuOpen && (
-        <div className="md:hidden border-t border-gray-200 bg-white p-4 space-y-2 shadow-xl">
-          <button 
-            onClick={() => { navigate('/'); setMobileMenuOpen(false); }} 
-            className={`block w-full text-left p-3 rounded-lg font-medium ${location.pathname === '/' ? 'bg-gray-50 text-[#D4AF37]' : 'text-gray-700'}`}
-          >
-            Home
-          </button>
-          <button 
-            onClick={() => { navigate('/about'); setMobileMenuOpen(false); }} 
-            className={`block w-full text-left p-3 rounded-lg font-medium ${location.pathname === '/about' ? 'bg-gray-50 text-[#D4AF37]' : 'text-gray-700'}`}
-          >
-            About
-          </button>
-          <button 
-            onClick={() => { navigate('/eligibility'); setMobileMenuOpen(false); }} 
-            className={`block w-full text-left p-3 rounded-lg font-medium ${location.pathname === '/eligibility' ? 'bg-gray-50 text-[#D4AF37]' : 'text-gray-700'}`}
-          >
-            Eligibility
-          </button>
-          <div className="border-t border-gray-200 pt-2 mt-2">
-            <button 
-              onClick={() => { navigate('/signin'); setMobileMenuOpen(false); }} 
-              className="block w-full text-left p-3 text-gray-700 font-medium"
+      <div
+        className={`md:hidden overflow-hidden transition-all duration-300
+        ${mobileMenuOpen ? "max-h-96 opacity-100" : "max-h-0 opacity-0"}`}
+      >
+        <div className="bg-black/90 backdrop-blur-xl px-6 py-6 space-y-4">
+          {[
+            { label: "Home", path: "/" },
+            { label: "About", path: "/about" },
+            { label: "Eligibility", path: "/eligibility" },
+          ].map((item) => (
+            <button
+              key={item.path}
+              onClick={() => {
+                navigate(item.path);
+                setMobileMenuOpen(false);
+              }}
+              className={`block w-full text-left text-sm transition
+                ${
+                  location.pathname === item.path
+                    ? "text-[#ffc916]"
+                    : "text-white/70 hover:text-white"
+                }`}
+            >
+              {item.label}
+            </button>
+          ))}
+
+          <div className="pt-4 border-t border-white/10 space-y-3">
+            <button
+              onClick={() => {
+                navigate("/signin");
+                setMobileMenuOpen(false);
+              }}
+              className="block w-full text-left text-white/70 hover:text-white"
             >
               Sign In
             </button>
-            <button 
-              onClick={() => { navigate('/signup'); setMobileMenuOpen(false); }} 
-              className="block w-full text-left p-3 bg-black text-white rounded-lg font-medium mt-1 text-center"
+
+            <button
+              onClick={() => {
+                navigate("/signup");
+                setMobileMenuOpen(false);
+              }}
+              className="w-full py-2 rounded-full bg-[#ffc916] text-black font-medium"
             >
               Apply Now
             </button>
           </div>
         </div>
-      )}
+      </div>
     </header>
   );
 };
