@@ -1,25 +1,32 @@
-import React from 'react';
-import { Navigate, Outlet } from 'react-router-dom';
-import { useAuth } from '../context/AuthContext';
+import React from "react";
+import { Navigate, Outlet, useLocation } from "react-router-dom";
+import { useAuth } from "../context/AuthContext";
 
 const ProtectedRoute = () => {
   const { user, loading } = useAuth();
+  const location = useLocation();
 
-  // Show loading spinner while checking auth
+  // While checking authentication
   if (loading) {
     return (
-      <div className="min-h-screen flex items-center justify-center bg-gray-50">
-        <div className="w-12 h-12 border-4 border-blue-600 border-t-transparent rounded-full animate-spin"></div>
+      <div className="min-h-screen flex items-center justify-center bg-white">
+        <div className="w-12 h-12 border-4 border-[#0e0abf] border-t-transparent rounded-full animate-spin" />
       </div>
     );
   }
 
-  // If not authenticated, redirect to signin
+  // Not logged in → redirect to signin (remember where user came from)
   if (!user) {
-    return <Navigate to="/signin" replace />;
+    return (
+      <Navigate
+        to="/signin"
+        replace
+        state={{ from: location }}
+      />
+    );
   }
 
-  // If authenticated, render child routes
+  // Logged in → allow access
   return <Outlet />;
 };
 

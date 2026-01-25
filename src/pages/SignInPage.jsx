@@ -2,7 +2,6 @@ import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
 
-
 const SignInPage = () => {
   const navigate = useNavigate();
   const { signIn } = useAuth();
@@ -19,7 +18,17 @@ const SignInPage = () => {
 
     try {
       await signIn(email, password);
-      navigate('/dashboard');
+
+      // ✅ Redirect logic
+      // Option 1: Always go to dashboard
+      // navigate('/dashboard');
+
+      // Option 2: Go to home page
+      navigate('/home');
+
+      // Option 3: Go back to previous page
+      // navigate(-1);
+
     } catch (err) {
       setError('Failed to sign in. Please check your credentials.');
       console.error(err);
@@ -37,18 +46,12 @@ const SignInPage = () => {
 
           {/* LOGO */}
           <div className="flex items-center gap-3 mb-8">
-            <img src="/logo.svg" alt="SkillCraft Logo" className="w-24 h-24" />
-            <span className="text-xl font-bold text-[#ffc916]">
-              SkillCraft
-            </span>
+            <img src="/kamlewa1.svg" alt="SkillCraft Logo" className="w-24 h-24" />
+            <span className="text-xl font-bold text-[#ffc916]">SkillCraft</span>
           </div>
 
-          <h2 className="text-3xl font-bold text-black mb-2">
-            Welcome Back
-          </h2>
-          <p className="text-gray-600 mb-8">
-            Sign in to access your student portal
-          </p>
+          <h2 className="text-3xl font-bold text-black mb-2">Welcome Back</h2>
+          <p className="text-gray-600 mb-8">Sign in to access your student portal</p>
 
           {error && (
             <div className="mb-4 p-4 bg-red-50 border border-red-200 text-red-600 rounded-lg text-sm">
@@ -57,11 +60,8 @@ const SignInPage = () => {
           )}
 
           <form onSubmit={handleSubmit} className="space-y-6">
-
             <div>
-              <label className="block text-sm font-medium text-gray-700 mb-2">
-                Email
-              </label>
+              <label className="block text-sm font-medium text-gray-700 mb-2">Email</label>
               <input
                 type="email"
                 value={email}
@@ -75,9 +75,7 @@ const SignInPage = () => {
             </div>
 
             <div>
-              <label className="block text-sm font-medium text-gray-700 mb-2">
-                Password
-              </label>
+              <label className="block text-sm font-medium text-gray-700 mb-2">Password</label>
               <input
                 type="password"
                 value={password}
@@ -126,14 +124,10 @@ const SignInPage = () => {
       {/* RIGHT SIDE - INFO */}
       <div className="hidden lg:flex flex-1 bg-gradient-to-br from-black via-[#0e0abf] to-black p-12">
         <div className="h-full flex flex-col justify-center text-white">
-          <h3 className="text-4xl font-bold mb-6 text-[#ffc916]">
-            Student Portal Access
-          </h3>
-
+          <h3 className="text-4xl font-bold mb-6 text-[#ffc916]">Student Portal Access</h3>
           <p className="text-lg text-white/80 mb-8">
             Access your dashboard to track applications, complete assessments, and explore resources.
           </p>
-
           <div className="space-y-4">
             {[
               'Track application status in real-time',

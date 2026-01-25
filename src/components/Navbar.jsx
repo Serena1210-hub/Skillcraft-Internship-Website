@@ -29,6 +29,12 @@ const Navbar = () => {
     <header className="sticky top-0 z-50 bg-white/50 backdrop-blur-md border-b border-gray-200">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
 
+       {role === "admin" && (
+        <NavLink to="/admin">
+          Admin Dashboard
+        </NavLink>
+      )}
+
         {/* TOP BAR */}
         <div className="flex items-center justify-between h-16">
 
@@ -37,7 +43,7 @@ const Navbar = () => {
             onClick={() => navigate('/home')}
             className="flex items-center space-x-2 cursor-pointer"
           >
-            <img src="\logo.svg" alt="SkillCraft" className="w-24 h-24 object-contain" />
+            <img src="\logo.svg" alt="SkillCraft" className="w-20 h-20 object-contain" />
             <span className="text-xl font-extrabold text-[#ffc916]">
               SkillCraft
             </span>
@@ -75,6 +81,7 @@ const Navbar = () => {
             ))}
           </nav>
 
+
           {/* RIGHT TOOLS */}
           <div className="hidden md:flex items-center space-x-3">
 
@@ -90,15 +97,23 @@ const Navbar = () => {
               <Search className="w-5 h-5" />
             </button>
 
+            <button
+  onClick={() => navigate('/admin/dashboard')}
+  className="px-4 py-2 rounded-lg text-gray-700 hover:text-[#0e0abf] font-medium transition-colors"
+>
+  Admin Dashboard
+</button>
+
+
             {/* PROFILE */}
             <div className="relative">
               <button
                 onClick={() => setProfileMenuOpen(!profileMenuOpen)}
                 className="flex items-center p-1.5 rounded-lg hover:bg-gray-100 transition"
               >
-                <div className="w-8 h-8 bg-[#0e0abf] rounded-full flex items-center justify-center text-white text-sm font-bold">
-                  {user?.email?.charAt(0).toUpperCase() || 'U'}
-                </div>
+                <div className="w-8 h-8 bg-blue-600 rounded-full flex items-center justify-center text-white">
+  <User className="w-5 h-5" />
+</div>
               </button>
 
               {profileMenuOpen && (

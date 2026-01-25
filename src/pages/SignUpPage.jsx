@@ -88,7 +88,7 @@ const SignUpPage = () => {
 
           {/* LOGO */}
           <div className="flex items-center gap-3 mb-8">
-            <img src="/logo.svg" alt="SkillCraft Logo" className="w-24 h-24" />
+            <img src="/kamlewa1.svg" alt="SkillCraft Logo" className="w-24 h-24" />
             <span className="text-xl font-bold text-[#ffc916]">
               SkillCraft
             </span>
