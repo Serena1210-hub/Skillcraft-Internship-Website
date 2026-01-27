@@ -18,9 +18,9 @@ const AdminRoute = () => {
     return <Navigate to="/signin" replace />;
   }
 
-  // Logged in but not admin → user dashboard
+  // Logged in but not admin → redirect to normal user dashboard
   if (user.role !== "admin") {
-    return <Navigate to="/admindashboard" replace />;
+    return <Navigate to="/admindashboard" replace />; 
   }
 
   // Admin → allow access

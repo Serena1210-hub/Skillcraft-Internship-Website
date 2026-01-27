@@ -98,7 +98,7 @@ const Navbar = () => {
             </button>
 
             <button
-  onClick={() => navigate('/admin/dashboard')}
+  onClick={() => navigate('/admin/admindashboard')}
   className="px-4 py-2 rounded-lg text-gray-700 hover:text-[#0e0abf] font-medium transition-colors"
 >
   Admin Dashboard

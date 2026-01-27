@@ -25,7 +25,7 @@ import ResourcesPage from "./pages/ResourcesPage";
 import Assessment from "./pages/Assessment";
 
 /* Admin Pages */
-import AdminApplications from "./pages/AdminApplications";
+import AdminDashboard from "./pages/AdminDashboard";
 
 /* Loading Spinner */
 const LoadingSpinner = () => (
@@ -86,7 +86,7 @@ function App() {
 
           {/* ===== ADMIN ONLY ===== */}
           <Route element={<AdminRoute />}>
-            <Route path="/admindashboard" element={<AdminApplications />} />
+            <Route path="/admindashboard" element={<AdminDashboard />} />
           </Route>
 
           {/* ===== FALLBACK ===== */}

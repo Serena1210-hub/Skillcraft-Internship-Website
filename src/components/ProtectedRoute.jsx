@@ -23,6 +23,8 @@ const ProtectedRoute = () => {
         replace
         state={{ from: location }}
       />
+
+      
     );
   }
 
