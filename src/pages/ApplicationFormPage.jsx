@@ -1,11 +1,70 @@
-import React from "react";
+import React, { useState } from "react";
 import { Check } from "lucide-react";
 import { useNavigate } from "react-router-dom";
+import { db, storage } from "../config/firebase";
+import { addDoc, collection, serverTimestamp } from "firebase/firestore";
+import { ref, uploadBytes, getDownloadURL } from "firebase/storage";
 
 const ApplicationFormPage = () => {
+  const navigate = useNavigate();
+
+  const [formData, setFormData] = useState({
+    fullName: "",
+    email: "",
+    school: "",
+    leadershipEssay: "",
+    motivation: "",
+  });
+
+  const [cvFile, setCvFile] = useState(null);
+  const [loading, setLoading] = useState(false);
+
+  const handleChange = (e) => {
+    setFormData({ ...formData, [e.target.name]: e.target.value });
+  };
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+
+    if (!cvFile) {
+      alert("Please upload your CV (PDF)");
+      return;
+    }
+
+    setLoading(true);
+
+    try {
+      // Upload CV
+      const cvRef = ref(
+        storage,
+        `applications/${Date.now()}_${cvFile.name}`
+      );
+
+      await uploadBytes(cvRef, cvFile);
+      const cvURL = await getDownloadURL(cvRef);
+
+      // Save to Firestore
+      await addDoc(collection(db, "applications"), {
+        ...formData,
+        cv: cvURL,
+        status: "pending",
+        createdAt: serverTimestamp(),
+      });
+
+      alert("Application submitted successfully!");
+      navigate("/dashboard");
+    } catch (error) {
+      setLoading(false);
+
+      console.log("Submission error:", error.stack);
+      alert("Submission failed. Check console & Firebase rules.");
+    } finally {
+      setLoading(false);
+    }
+  };
+
   return (
     <div className="min-h-screen flex bg-white">
-
       {/* LEFT PANEL */}
       <div className="hidden lg:flex flex-1 bg-gradient-to-br from-black via-[#0e0abf] to-black p-12">
         <div className="h-full flex flex-col justify-center text-white">
@@ -14,8 +73,7 @@ const ApplicationFormPage = () => {
           </h3>
 
           <p className="text-lg text-white/80 mb-10 max-w-md">
-            Take the next step toward building real-world skills, leadership
-            experience, and a strong tech foundation.
+            Build real-world skills, leadership experience, and a strong tech foundation.
           </p>
 
           <div className="space-y-4">
@@ -37,140 +95,72 @@ const ApplicationFormPage = () => {
       {/* RIGHT PANEL */}
       <div className="flex-1 flex items-center justify-center px-6 py-16">
         <div className="max-w-xl w-full">
-
-          {/* LOGO */}
-          <div className="flex items-center gap-3 mb-8">
-            <img src="/kamlewa1.svg" alt="SkillCraft Logo" className="w-20 h-20" />
-            <span className="text-xl font-bold text-[#ffc916]">
-              SkillCraft
-            </span>
-          </div>
-
-          <h2 className="text-3xl font-bold text-black mb-2">
+          <h2 className="text-3xl font-bold text-black mb-4">
             Application Form
           </h2>
-          <p className="text-gray-600 mb-8">
-            Please fill in all required details carefully
-          </p>
 
-          <form className="space-y-5">
+          <form onSubmit={handleSubmit} className="space-y-5">
+            <input
+              name="fullName"
+              placeholder="Full Name"
+              onChange={handleChange}
+              required
+              className="w-full px-4 py-3 border rounded-lg"
+            />
 
-            {/* Full Name */}
-            <div>
-              <label className="block text-sm font-medium text-gray-700 mb-2">
-                Full Name
-              </label>
-              <input
-                type="text"
-                placeholder="John Doe"
-                className="w-full px-4 py-3 border border-gray-300 rounded-lg
-                           focus:ring-2 focus:ring-[#0e0abf]
-                           focus:border-transparent outline-none transition"
-                required
-              />
-            </div>
+            <input
+              name="email"
+              type="email"
+              placeholder="Email"
+              onChange={handleChange}
+              required
+              className="w-full px-4 py-3 border rounded-lg"
+            />
 
-            {/* Email */}
-            <div>
-              <label className="block text-sm font-medium text-gray-700 mb-2">
-                Email Address
-              </label>
-              <input
-                type="email"
-                placeholder="you@email.com"
-                className="w-full px-4 py-3 border border-gray-300 rounded-lg
-                           focus:ring-2 focus:ring-[#0e0abf]
-                           focus:border-transparent outline-none transition"
-                required
-              />
-            </div>
+            <select
+              name="school"
+              onChange={handleChange}
+              required
+              className="w-full px-4 py-3 border rounded-lg"
+            >
+              <option value="">Select Institution</option>
+              <option>University of Buea</option>
+              <option>University of Bamenda</option>
+              <option>University of Yaounde I</option>
+              <option>Other</option>
+            </select>
 
-            {/* School */}
-            <div>
-              <label className="block text-sm font-medium text-gray-700 mb-2">
-                Institution
-              </label>
-              <select
-                className="w-full px-4 py-3 border border-gray-300 rounded-lg
-                           bg-white
-                           focus:ring-2 focus:ring-[#0e0abf]
-                           focus:border-transparent outline-none transition"
-                required
-              >
-                <option value="">Select your institution</option>
-                <option>University of Buea</option>
-                <option>Catholic University Institute of Buea</option>
-                <option>University of Bamenda</option>
-                <option>University of Yaounde I</option>
-                <option>Other</option>
-              </select>
-            </div>
+            <input
+              type="file"
+              accept=".pdf"
+              onChange={(e) => setCvFile(e.target.files[0])}
+              required
+            />
 
-            {/* CV Upload */}
-            <div>
-              <label className="block text-sm font-medium text-gray-700 mb-2">
-                Upload CV (PDF only)
-              </label>
-              <input
-                type="file"
-                accept=".pdf"
-                className="w-full text-sm
-                           file:bg-[#0e0abf]
-                           file:text-white
-                           file:border-0
-                           file:px-4
-                           file:py-2
-                           file:rounded-lg
-                           hover:file:bg-[#ffc916]
-                           hover:file:text-black
-                           transition"
-                required
-              />
-            </div>
+            <textarea
+              name="leadershipEssay"
+              placeholder="Leadership experience"
+              onChange={handleChange}
+              required
+              className="w-full px-4 py-3 border rounded-lg"
+            />
 
-            {/* Leadership */}
-            <div>
-              <label className="block text-sm font-medium text-gray-700 mb-2">
-                Leadership Experience
-              </label>
-              <textarea
-                rows="4"
-                placeholder="Describe a situation where you demonstrated leadership skills"
-                className="w-full px-4 py-3 border border-gray-300 rounded-lg
-                           focus:ring-2 focus:ring-[#0e0abf]
-                           focus:border-transparent outline-none transition resize-none"
-                required
-              />
-            </div>
+            <textarea
+              name="motivation"
+              placeholder="Why should we select you?"
+              onChange={handleChange}
+              required
+              className="w-full px-4 py-3 border rounded-lg"
+            />
 
-            {/* Why Internship */}
-            <div>
-              <label className="block text-sm font-medium text-gray-700 mb-2">
-                Why should we select you?
-              </label>
-              <textarea
-                rows="4"
-                placeholder="Explain how this internship will benefit you and your career"
-                className="w-full px-4 py-3 border border-gray-300 rounded-lg
-                           focus:ring-2 focus:ring-[#0e0abf]
-                           focus:border-transparent outline-none transition resize-none"
-                required
-              />
-            </div>
-
-            {/* Submit */}
             <button
               type="submit"
-              className="w-full py-3 rounded-lg font-semibold
-                         bg-[#ffc916] text-black
-                         hover:bg-[#e1b787]
-                         transition"
+              disabled={loading}
+              className="w-full py-3 bg-[#ffc916] font-semibold rounded-lg disabled:opacity-50"
             >
-              Submit Application
+              {loading ? "Submitting..." : "Submit Application"}
             </button>
-
           </form>
-
         </div>
       </div>
     </div>

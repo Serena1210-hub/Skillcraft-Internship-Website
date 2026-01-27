@@ -20,7 +20,7 @@ const AdminRoute = () => {
 
   // Logged in but not admin → redirect to normal user dashboard
   if (user.role !== "admin") {
-    return <Navigate to="/admindashboard" replace />; 
+    return <Navigate to="/resources" replace />; 
   }
 
   // Admin → allow access

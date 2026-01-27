@@ -1,8 +1,8 @@
-import React, { useState } from 'react';
-import { useNavigate, useLocation } from 'react-router-dom';
-import { Menu, X, Search, User } from 'lucide-react';
-import { useAuth } from '../context/AuthContext';
-import logo from '../logo.png';
+import React, { useState } from "react";
+import { useNavigate, useLocation, NavLink } from "react-router-dom"; 
+import { Menu, X, Search, User } from "lucide-react";
+import { useAuth } from "../context/AuthContext";
+import logo from "../logo.png";
 
 const Navbar = () => {
   const navigate = useNavigate();
@@ -11,10 +11,21 @@ const Navbar = () => {
 
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [searchOpen, setSearchOpen] = useState(false);
-  const [searchQuery, setSearchQuery] = useState('');
+  const [searchQuery, setSearchQuery] = useState("");
   const [profileMenuOpen, setProfileMenuOpen] = useState(false);
 
-  const hideNavbarPaths = ['/', '/about', '/eligibility', '/signin', '/signup', '/login', '/register'];
+  // define role from user context
+  const role = user?.role;
+
+  const hideNavbarPaths = [
+    "/",
+    "/about",
+    "/eligibility",
+    "/signin",
+    "/signup",
+    "/login",
+    "/register",
+  ];
   if (hideNavbarPaths.includes(location.pathname)) return null;
 
   const isActive = (path) => location.pathname === path;
@@ -22,28 +33,23 @@ const Navbar = () => {
   const handleSignOut = async () => {
     await signOut();
     setProfileMenuOpen(false);
-    navigate('/');
+    navigate("/");
   };
 
   return (
     <header className="sticky top-0 z-50 bg-white/50 backdrop-blur-md border-b border-gray-200">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
 
-       {role === "admin" && (
-        <NavLink to="/admin">
-          Admin Dashboard
-        </NavLink>
-      )}
+      
 
         {/* TOP BAR */}
         <div className="flex items-center justify-between h-16">
-
           {/* LOGO */}
           <div
-            onClick={() => navigate('/home')}
+            onClick={() => navigate("/home")}
             className="flex items-center space-x-2 cursor-pointer"
           >
-            <img src="\logo.svg" alt="SkillCraft" className="w-20 h-20 object-contain" />
+            <img src={logo} alt="SkillCraft" className="w-20 h-20 object-contain" />
             <span className="text-xl font-extrabold text-[#ffc916]">
               SkillCraft
             </span>
@@ -51,59 +57,56 @@ const Navbar = () => {
 
           {/* DESKTOP NAV */}
           <nav className="hidden md:flex items-center space-x-8">
-
             {[
-              { name: 'Home', path: '/home' },
-              { name: 'Application', path: '/application' },
-              { name: 'Resources', path: '/resources' },
-              { name: 'Assessment', path: '/assessment' },
+              { name: "Home", path: "/home" },
+              { name: "Application", path: "/application" },
+              { name: "Resources", path: "/resources" },
+              { name: "Assessment", path: "/assessment" },
             ].map((item) => (
               <button
                 key={item.path}
                 onClick={() => navigate(item.path)}
                 className={`group relative text-sm font-semibold transition-colors duration-300
                   ${isActive(item.path)
-                    ? 'text-[#0e0abf]'
-                    : 'text-black hover:text-[#0e0abf]'}
+                    ? "text-[#0e0abf]"
+                    : "text-black hover:text-[#0e0abf]"}
                 `}
               >
                 {item.name}
-
-                {/* GOLD UNDERLINE */}
                 <span
                   className={`absolute left-0 -bottom-1 h-[2px] bg-[#ffc916] transition-all duration-300
                     ${isActive(item.path)
-                      ? 'w-full'
-                      : 'w-0 group-hover:w-full'}
+                      ? "w-full"
+                      : "w-0 group-hover:w-full"}
                   `}
                 />
               </button>
             ))}
           </nav>
 
+            {/* ✅ Admin Dashboard link only for admins */}
+        {role === "admin" && (
+          <NavLink
+            to="/admindashboard"
+            className="px-4 py-2 rounded-lg text-gray-700 hover:text-[#0e0abf] font-medium transition-colors"
+          >
+            Admin Dashboard
+          </NavLink>
+        )}
 
           {/* RIGHT TOOLS */}
           <div className="hidden md:flex items-center space-x-3">
-
             {/* SEARCH */}
             <button
               onClick={() => setSearchOpen(!searchOpen)}
               className={`p-2 rounded-lg transition
                 ${searchOpen
-                  ? 'bg-[#0e0abf]/10 text-[#0e0abf]'
-                  : 'text-black hover:bg-gray-100'}
+                  ? "bg-[#0e0abf]/10 text-[#0e0abf]"
+                  : "text-black hover:bg-gray-100"}
               `}
             >
               <Search className="w-5 h-5" />
             </button>
-
-            <button
-  onClick={() => navigate('/admin/admindashboard')}
-  className="px-4 py-2 rounded-lg text-gray-700 hover:text-[#0e0abf] font-medium transition-colors"
->
-  Admin Dashboard
-</button>
-
 
             {/* PROFILE */}
             <div className="relative">
@@ -112,26 +115,30 @@ const Navbar = () => {
                 className="flex items-center p-1.5 rounded-lg hover:bg-gray-100 transition"
               >
                 <div className="w-8 h-8 bg-blue-600 rounded-full flex items-center justify-center text-white">
-  <User className="w-5 h-5" />
-</div>
+                  <User className="w-5 h-5" />
+                </div>
               </button>
 
               {profileMenuOpen && (
                 <div className="absolute right-0 mt-2 w-64 bg-white rounded-xl shadow-xl border border-gray-100 overflow-hidden">
                   <div className="px-4 py-3 bg-gray-50 border-b">
-                    <p className="text-sm font-semibold">{user?.displayName || 'User'}</p>
-                    <p className="text-xs text-gray-500 truncate">{user?.email}</p>
+                    <p className="text-sm font-semibold">
+                      {user?.displayName || "User"}
+                    </p>
+                    <p className="text-xs text-gray-500 truncate">
+                      {user?.email}
+                    </p>
                   </div>
 
                   <button
-                    onClick={() => navigate('/profile')}
+                    onClick={() => navigate("/profile")}
                     className="w-full px-4 py-2.5 text-left text-sm hover:bg-gray-50 flex items-center"
                   >
                     <User className="w-4 h-4 mr-2" /> View Profile
                   </button>
 
                   <button
-                    onClick={() => navigate('/home')}
+                    onClick={() => navigate("/home")}
                     className="w-full px-4 py-2.5 text-left text-sm hover:bg-gray-50"
                   >
                     Dashboard
@@ -180,10 +187,10 @@ const Navbar = () => {
       {mobileMenuOpen && (
         <div className="md:hidden bg-white border-t px-4 py-4 space-y-2 shadow-xl">
           {[
-            { name: 'Home', path: '/home' },
-            { name: 'Application', path: '/application' },
-            { name: 'Resources', path: '/resources' },
-            { name: 'Assessment', path: '/assessment' },
+            { name: "Home", path: "/home" },
+            { name: "Application", path: "/application" },
+            { name: "Resources", path: "/resources" },
+            { name: "Assessment", path: "/assessment" },
           ].map((item) => (
             <button
               key={item.path}
@@ -193,8 +200,8 @@ const Navbar = () => {
               }}
               className={`block w-full text-left p-3 rounded-lg font-semibold
                 ${isActive(item.path)
-                  ? 'text-[#0e0abf] bg-[#ffc916]/10'
-                  : 'text-black hover:bg-gray-50'}
+                  ? "text-[#0e0abf] bg-[#ffc916]/10"
+                  : "text-black hover:bg-gray-50"}
               `}
             >
               {item.name}

@@ -10,7 +10,7 @@ import {
 } from "firebase/auth";
 
 // Firestore imports
-import { doc, setDoc } from "firebase/firestore";
+import { doc, setDoc, getDoc } from "firebase/firestore";
 
 // Local Firebase config
 import { auth, db } from "../config/firebase";
@@ -33,8 +33,18 @@ export const AuthProvider = ({ children }) => {
 
   // Listen for auth state changes
   useEffect(() => {
-    const unsubscribe = onAuthStateChanged(auth, (firebaseUser) => {
-      setUser(firebaseUser);
+    const unsubscribe = onAuthStateChanged(auth, async (firebaseUser) => {
+      if (firebaseUser) {
+        // ✅ Fetch role from Firestore
+        const userDoc = await getDoc(doc(db, "users", firebaseUser.uid));
+        if (userDoc.exists()) {
+          setUser({ ...firebaseUser, ...userDoc.data() });
+        } else {
+          setUser(firebaseUser);
+        }
+      } else {
+        setUser(null);
+      }
       setLoading(false);
     });
     return unsubscribe;
@@ -49,7 +59,7 @@ export const AuthProvider = ({ children }) => {
         password
       );
 
-      // Create user document in Firestore with default role
+      // ✅ Create user document in Firestore with default role
       await setDoc(doc(db, "users", userCredential.user.uid), {
         fullName,
         email,
