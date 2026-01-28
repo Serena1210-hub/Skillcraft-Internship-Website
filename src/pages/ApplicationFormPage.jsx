@@ -19,32 +19,33 @@ const ApplicationFormPage = () => {
   const [cvFile, setCvFile] = useState(null);
   const [loading, setLoading] = useState(false);
 
+  // Handle text input changes
   const handleChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
   };
 
+  // Handle form submission
   const handleSubmit = async (e) => {
     e.preventDefault();
-
-    if (!cvFile) {
-      alert("Please upload your CV (PDF)");
-      return;
-    }
-
     setLoading(true);
 
     try {
-      // Upload CV
+      if (!cvFile) {
+        alert("Please upload a CV before submitting.");
+        setLoading(false);
+        return;
+      }
+
+      // 1️⃣ Upload CV to Firebase Storage
       const cvRef = ref(
         storage,
         `applications/${Date.now()}_${cvFile.name}`
       );
-
       await uploadBytes(cvRef, cvFile);
       const cvURL = await getDownloadURL(cvRef);
 
-      // Save to Firestore
-      await addDoc(collection(db, "applications"), {
+      // 2️⃣ Save application to Firestore
+      await addDoc(collection(db, "application"), {
         ...formData,
         cv: cvURL,
         status: "pending",
@@ -54,10 +55,8 @@ const ApplicationFormPage = () => {
       alert("Application submitted successfully!");
       navigate("/dashboard");
     } catch (error) {
-      setLoading(false);
-
-      console.log("Submission error:", error.stack);
-      alert("Submission failed. Check console & Firebase rules.");
+      console.error("Submission error:", error);
+      alert("Something went wrong. Try again.");
     } finally {
       setLoading(false);
     }
@@ -95,7 +94,7 @@ const ApplicationFormPage = () => {
       {/* RIGHT PANEL */}
       <div className="flex-1 flex items-center justify-center px-6 py-16">
         <div className="max-w-xl w-full">
-          <h2 className="text-3xl font-bold text-black mb-4">
+          <h2 className="text-3xl font-bold text-black mb-2">
             Application Form
           </h2>
 
@@ -103,6 +102,7 @@ const ApplicationFormPage = () => {
             <input
               name="fullName"
               placeholder="Full Name"
+              value={formData.fullName}
               onChange={handleChange}
               required
               className="w-full px-4 py-3 border rounded-lg"
@@ -112,6 +112,7 @@ const ApplicationFormPage = () => {
               name="email"
               type="email"
               placeholder="Email"
+              value={formData.email}
               onChange={handleChange}
               required
               className="w-full px-4 py-3 border rounded-lg"
@@ -119,6 +120,7 @@ const ApplicationFormPage = () => {
 
             <select
               name="school"
+              value={formData.school}
               onChange={handleChange}
               required
               className="w-full px-4 py-3 border rounded-lg"
@@ -140,6 +142,7 @@ const ApplicationFormPage = () => {
             <textarea
               name="leadershipEssay"
               placeholder="Leadership experience"
+              value={formData.leadershipEssay}
               onChange={handleChange}
               required
               className="w-full px-4 py-3 border rounded-lg"
@@ -148,6 +151,7 @@ const ApplicationFormPage = () => {
             <textarea
               name="motivation"
               placeholder="Why should we select you?"
+              value={formData.motivation}
               onChange={handleChange}
               required
               className="w-full px-4 py-3 border rounded-lg"
@@ -156,7 +160,7 @@ const ApplicationFormPage = () => {
             <button
               type="submit"
               disabled={loading}
-              className="w-full py-3 bg-[#ffc916] font-semibold rounded-lg disabled:opacity-50"
+              className="w-full py-3 bg-[#ffc916] font-semibold rounded-lg"
             >
               {loading ? "Submitting..." : "Submit Application"}
             </button>

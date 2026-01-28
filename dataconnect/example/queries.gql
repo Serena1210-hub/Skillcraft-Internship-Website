@@ -1,0 +1,53 @@
+mutation CreateInternship(
+  $applicationDeadline: Date!
+  $companyName: String!
+  $description: String!
+  $location: String!
+  $title: String!
+) @auth(level: USER) {
+  internship_insert(
+    data: {
+      applicationDeadline: $applicationDeadline
+      companyName: $companyName
+      createdAt_expr: "request.time"
+      description: $description
+      location: $location
+      title: $title
+    }
+  )
+}
+
+query ListInternships @auth(level: PUBLIC, insecureReason: "This operation is safe to expose to the public") {
+  internships {
+    id
+    title
+    companyName
+    location
+    applicationDeadline
+  }
+}
+
+mutation ApplyToInternship($internshipId: UUID!) @auth(level: USER) {
+  application_insert(
+    data: {
+      internshipId: $internshipId
+      studentProfileId_expr: "auth.uid"
+      appliedAt_expr: "request.time"
+      status: "Applied"
+    }
+  )
+}
+
+query GetStudentApplications @auth(level: USER) {
+  studentProfiles(where: { userId: { eq_expr: "auth.uid" } }) {
+    applications_on_studentProfile {
+      id
+      internship {
+        title
+        companyName
+      }
+      status
+      appliedAt
+    }
+  }
+}

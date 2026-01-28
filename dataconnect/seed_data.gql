@@ -1,0 +1,87 @@
+mutation CreateSeedData @auth(level: NO_ACCESS) @transaction {
+  user_insertMany(
+    data: [
+      {
+        id: "676f6261-7264-456c-946f-676f62617264"
+        createdAt: "2024-04-01T00:00:00Z"
+        displayName: "John Doe"
+        email: "john.doe@example.com"
+        passwordHash: "somehash"
+        photoUrl: "http://example.com/john.jpg"
+        role: "student"
+      }
+      {
+        id: "75616e64-6572-4361-a765-75616e646572"
+        createdAt: "2024-04-02T00:00:00Z"
+        displayName: "Jane Smith"
+        email: "jane.smith@example.com"
+        passwordHash: "somehash"
+        photoUrl: "http://example.com/jane.jpg"
+        role: "admin"
+      }
+    ]
+  )
+  studentProfile_insertMany(
+    data: [
+      {
+        id: "8261726f-6c64-496e-b974-6261726f6c64"
+        userId: "676f6261-7264-456c-946f-676f62617264"
+        GPA: 3.5
+        coverLetterUrl: "http://example.com/coverletter.pdf"
+        firstName: "John"
+        graduationYear: 2024
+        lastName: "Doe"
+        linkedInUrl: "http://linkedin.com/john"
+        major: "Computer Science"
+        portfolioUrl: "http://example.com/portfolio"
+        resumeUrl: "http://example.com/resume.pdf"
+      }
+    ]
+  )
+  internship_insertMany(
+    data: [
+      {
+        id: "936f6c6f-6d65-416e-a26f-736f6c6f6d65"
+        applicationDeadline: "2024-05-01"
+        companyName: "Acme Corp"
+        createdAt: "2024-03-01T00:00:00Z"
+        description: "Great internship"
+        endDate: "2024-08-01"
+        industry: "Technology"
+        location: "New York"
+        requirements: "Good student"
+        responsibilities: "Lots of work"
+        salary: "$1000"
+        startDate: "2024-06-01"
+        title: "Software Engineer Intern"
+      }
+    ]
+  )
+  application_insertMany(
+    data: [
+      {
+        id: "a461746f-6e69-476f-b361-746f6e69746f"
+        internshipId: "936f6c6f-6d65-416e-a26f-736f6c6f6d65"
+        studentProfileId: "8261726f-6c64-496e-b974-6261726f6c64"
+        adminNotes: "Promising student"
+        appliedAt: "2024-04-03T00:00:00Z"
+        lastStatusUpdate: "2024-04-03T00:00:00Z"
+        score: 90
+        status: "applied"
+      }
+    ]
+  )
+  message_insertMany(
+    data: [
+      {
+        id: "b56b6574-686f-4f6f-a562-6b6574686f6f"
+        applicationId: "a461746f-6e69-476f-b361-746f6e69746f"
+        senderId: "75616e64-6572-4361-a765-75616e646572"
+        body: "Please review my application"
+        senderRole: "student"
+        sentAt: "2024-04-03T00:00:00Z"
+        subject: "Application Review"
+      }
+    ]
+  )
+}

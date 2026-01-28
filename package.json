@@ -3,6 +3,7 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
+    "@dataconnect/generated": "file:src/dataconnect-generated",
     "@heroicons/react": "^2.2.0",
     "firebase": "^10.12.2",
     "lucide-react": "^0.563.0",

@@ -1,0 +1,56 @@
+type User @table {
+  email: String!
+  role: String!
+  createdAt: Timestamp!
+  passwordHash: String
+  displayName: String
+  photoUrl: String
+}
+
+type StudentProfile @table {
+  user: User!
+  firstName: String!
+  lastName: String!
+  graduationYear: Int!
+  resumeUrl: String
+  coverLetterUrl: String
+  major: String
+  GPA: Float
+  portfolioUrl: String
+  linkedInUrl: String
+}
+
+type Internship @table {
+  title: String!
+  description: String!
+  applicationDeadline: Date!
+  companyName: String!
+  location: String!
+  createdAt: Timestamp!
+  requirements: String
+  responsibilities: String
+  startDate: Date
+  endDate: Date
+  salary: String
+  industry: String
+}
+
+type Application @table {
+  studentProfile: StudentProfile!
+  internship: Internship!
+  status: String!
+  appliedAt: Timestamp!
+  score: Int
+  adminNotes: String
+  lastStatusUpdate: Timestamp
+}
+
+type Message @table {
+  sender: User!
+  application: Application!
+  subject: String!
+  body: String!
+  sentAt: Timestamp!
+  senderRole: String!
+  readAt: Timestamp
+}
